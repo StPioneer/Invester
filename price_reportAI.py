@@ -3,6 +3,9 @@
 Created on Fri Nov 16 13:21:58 2018
 
 @author: StPioneer
+
+生成price-report之後的LSTM預測
+ 
 """
 
 import math 
@@ -45,8 +48,7 @@ def report(strategy,close = "Close"):
                      fin_price[str(fin_data.iloc[i:i+st[1]][st[0]].index[0].year)+"-07"][close].iloc[0],
                      fin_price[str(fin_data.iloc[i:i+st[1]][st[0]].index[0].year)+"-10"][close].iloc[0],
                      fin_price[str(fin_data.iloc[i:i+st[1]][st[0]].index[0].year+1)+"-04"][close].iloc[0]]
-                    #,fin_price[str(fin_data.iloc[i:i+5]["股東權益報酬率(%)"].index[0].year+2)+"-04"]["Adj Close"].iloc[0]
-                    #,fin_price[str(fin_data.iloc[i:i+5]["股東權益報酬率(%)"].index[0].year+3)+"-04"]["Adj Close"].iloc[0]
+
                 except: 
                     br = 1
                     break 
@@ -72,15 +74,13 @@ def report(strategy,close = "Close"):
                                        fin_price[str(fin_data.iloc[i:i+strategy[j][1]][strategy[j][0]].index[0].year)+"-07"][close].iloc[0],
                                        fin_price[str(fin_data.iloc[i:i+strategy[j][1]][strategy[j][0]].index[0].year)+"-10"][close].iloc[0],
                                        fin_price[str(fin_data.iloc[i:i+strategy[j][1]][strategy[j][0]].index[0].year+1)+"-04"][close].iloc[0]]]))
-                                       #fin_price[str(fin_data.iloc[i:i+5]["股東權益報酬率(%)"].index[0].year+2)+"-04"]["Adj Close"].iloc[0],
-                                       #fin_price[str(fin_data.iloc[i:i+5]["股東權益報酬率(%)"].index[0].year+3)+"-04"]["Adj Close"].iloc[0]
+
                                        
                 
                 train_x = np.vstack((train_x,train_x1.reshape(1,np.shape(train_x1)[0],np.shape(train_x1)[1]))).copy()
     
     report.columns= ["eventime","index","evenPrice","evenPrice5d","evenPrice1m","evenPrice3m","evenPrice6m","evenPrice1y"]
-    #report.columns= ["eventime","index","evenPrice","evenPrice5d","evenPrice1m","evenPrice3m","evenPrice6m","evenPrice1y","evenPrice2y","evenPrice3y"]
-    
+
     report= report[1:]
     train_x = train_x[1:]
     report.index = pd.to_datetime(report.iloc[:,0].copy())#Index轉乘時間序列
@@ -99,8 +99,7 @@ def reportMediam(report):
                         (reportout["evenPrice3m"]-reportout["evenPrice"])*100/reportout["evenPrice"],
                         (reportout["evenPrice6m"]-reportout["evenPrice"])*100/reportout["evenPrice"],
                         (reportout["evenPrice1y"]-reportout["evenPrice"])*100/reportout["evenPrice"]],axis=1)
-                        #(reportout["evenPrice2y"]-reportout["evenPrice"])*100/reportout["evenPrice"],
-                        #(reportout["evenPrice3y"]-reportout["evenPrice"])*100/reportout["evenPrice"]
+
         out.columns = report.columns.copy()
         
         reportY = out.describe()#儲存統計總攬
