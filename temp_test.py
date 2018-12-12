@@ -9,7 +9,7 @@ close = "Adj Close"
 train_x = np.zeros((1,int(max(np.array(strategy)[:,1])),len(strategy)+1))#training資料存放區
 report = pd.DataFrame([[]])#達掉條件的股票代號及報酬率
 for root, dirs, files in walk("data/price-report"):print("讀取路徑路徑檔案")
-for file in files:            
+for file in files[:50]:            
 
     fin_data  = pd.read_csv("data/report/財務分析/"+file,index_col =0, parse_dates=True)
     fin_price = pd.read_csv("data/price/"+file,index_col =0, parse_dates=True)

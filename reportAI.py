@@ -138,7 +138,7 @@ def build_model(input_length, input_dim,output_dim):
 
     model.add(LSTM(144, input_shape=(input_length, input_dim), return_sequences=True))
     model.add(Dropout(d))
-    model.add(LSTM(172, input_shape=(input_length, input_dim))
+    model.add(LSTM(172, input_shape=(input_length, input_dim)))
     model.add(Dropout(d))
     model.add(Dense(16,kernel_initializer="uniform",activation='relu'))
     model.add(Dense(output_dim,kernel_initializer="uniform",activation='linear'))
